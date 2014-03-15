@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :complete]
 
   # GET /tasks
   # GET /tasks.json
@@ -59,6 +59,16 @@ class TasksController < ApplicationController
       format.html { redirect_to tasks_url }
       format.json { head :no_content }
     end
+  end
+
+  def completed
+    @tasks = Task.where(completed: true)
+  end
+
+  def complete
+    @task.update_attribute :completed, true
+    flash[:notice] = 'Task Completed'
+    redirect_to completed_tasks_path
   end
 
   private
